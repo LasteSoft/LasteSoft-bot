@@ -12,7 +12,7 @@ async def on_ready():
     print(discord.__version__)  # discord.pyのバージョン
     print('------')
     game = discord.Game(f"rb! | {len(bot.guilds)}サーバー | {len(bot.users)}ユーザー | 作成者: aroko1#6837")
-    await bot.change_presence(activity=game, status=discord.Status.)
+    await bot.change_presence(activity=game, status=discord.Status.idle)
 
 @bot.event
 async def on_command_error(ctx, error):
