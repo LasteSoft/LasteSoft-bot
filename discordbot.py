@@ -2,7 +2,7 @@ from discord.ext import commands
 import os
 import traceback
 import discord
-bot = commands.Bot(command_prefix='di!', help_command=None, intents=discord.Intents.all())
+bot = commands.Bot(command_prefix='la!', help_command=None, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -11,7 +11,7 @@ async def on_ready():
     print(bot.user.id)  # ID
     print(discord.__version__)  # discord.pyのバージョン
     print('------')
-    game = discord.Game(f"rb! | {len(bot.guilds)}サーバー | {len(bot.users)}ユーザー | 作成者: aroko1#6837")
+    game = discord.Game(f"la! | {len(bot.guilds)}サーバー | {len(bot.users)}ユーザー")
     await bot.change_presence(activity=game, status=discord.Status.idle)
 
 @bot.event
