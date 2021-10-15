@@ -18,7 +18,7 @@ async def on_ready():
 async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
-    channel = bot.get_channel(896321426175442964)#or896321426175442964
+    channel = bot.get_channel(898709445876543508)
     await channel.send(error_msg)
     print(error_msg)
     await ctx.send(f'エラーが発生しました。\n**エラー内容**\n```{error_msg}```\n(開発者に送信しました)')
