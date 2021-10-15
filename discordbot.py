@@ -2,7 +2,7 @@ from discord.ext import commands
 import os
 import traceback
 import discord
-bot = commands.Bot(command_prefix='di!', help_command=None)
+bot = commands.Bot(command_prefix='di!', help_command=None, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
