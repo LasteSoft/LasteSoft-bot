@@ -1,33 +1,41 @@
-from discord.ext import commands
+
+
+
 import os
-import traceback
 import discord
-bot = commands.Bot(command_prefix='la!', help_command=None, intents=discord.Intents.all())
+from discord.ext import command
+from urllib.parse import quote_plus
 
-@bot.event
-async def on_ready():
-    print("Botは正常に起動しました！")
-    print(bot.user.name)  # Botの名前
-    print(bot.user.id)  # ID
-    print(discord.__version__)  # discord.pyのバージョン
-    print('------')
-    game = discord.Game(f"la! | {len(bot.guilds)}サーバー | {len(bot.users)}ユーザー")
-    await bot.change_presence(activity=game, status=discord.Status.idle)
+class GoogleBot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix=commands.when_mentioned_or('$'))
 
-@bot.event
-async def on_command_error(ctx, error):
-    orig_error = getattr(error, "original", error)
-    error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
-    channel = bot.get_channel(898709445876543508)
-    await channel.send(error_msg)
-    print(error_msg)
-    await ctx.send(f'エラーが発生しました。\n**エラー内容**\n```{error_msg}```\n(開発者に送信しました)')
+    async def on_ready(self):
+        print(f'Logged in as {self.user} (ID: {self.user.id})')
+        print('------')
+
+
+# Define a simple View that gives us a google link button.
+# We take in `query` as the query that the command author requests for
+class Google(discord.ui.View):
+    def __init__(self, query: str):
+        super().__init__()
+        # we need to quote the query string to make a valid url. Discord will raise an error if it isn't valid.
+        query = quote_plus(query)
+        url = f'https://www.google.com/search?q={query}'
+
+        # Link buttons cannot be made with the decorator
+        # Therefore we have to manually create one.
+        # We add the quoted url to the button, and add the button to the view.
+        self.add_item(discord.ui.Button(label='Click Here', url=url))
+
+
+bot = GoogleBot()
 
 
 @bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-
-
+async def google(ctx: commands.Context, *, query: str):
+    """Returns a google link for a query"""
+    await ctx.send(f'Google Result for: `{query}`', view=Google(query))
 token = os.getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
