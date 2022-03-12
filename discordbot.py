@@ -23,6 +23,12 @@ async def on_command_error(ctx, error):
     print(error_msg)
     await ctx.send(f'エラーが発生しました。\n**エラー内容**\n```{error_msg}```\n(開発者に送信しました)')
 
+@bot.command()
+async def why(ctx,message=None):
+    if message == None:
+        await ctx.send("このコマンドが現在作成中です。")
+    elif message == "laste_info":
+        await ctx.send("このコマンドが現在作成中です。\n")
 
 @bot.command()
 async def ping(ctx):
